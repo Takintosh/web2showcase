@@ -47,11 +47,11 @@ public class CategoryController {
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable(value="id") UUID id) {
 
-        Optional<CategoryModel> categoryO = categoryRepository.findById(id);
-        if(categoryO.isEmpty()) {
+        Optional<CategoryModel> category = categoryRepository.findById(id);
+        if(category.isEmpty()) {
             return "redirect:/category/";
         }
-        categoryRepository.delete(categoryO.get());
+        categoryRepository.delete(category.get());
         return "redirect:/category/";
     }
 
