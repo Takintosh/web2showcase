@@ -9,7 +9,7 @@ import java.util.UUID;
 public class CarModel {
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "categoryId", nullable = false)
     private CategoryModel category;
 
     @Id
