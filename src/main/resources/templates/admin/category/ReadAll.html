@@ -44,18 +44,19 @@
                         <tbody>
 
                         <tr th:each="category : ${categories}">
-                            <td th:text="${category.getCategoryName()}"></td>
+                            <td th:text="${category.categoryName}"></td>
                             <td>
 
-                                <a th:href="@{/category/update/{id}(id=${category.getCategoryId()})}"
+                                <a href="#" data-toggle="modal"
+                                   th:attr="data-target='#updateModal' + ${category.categoryId}"
                                    class="btn btn-primary btn-circle btn-sm"
                                    title="Update">
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                <a th:href="@{/category/delete/{id}(id=${category.getCategoryId()})}"
-                                   class="btn btn-danger btn-circle btn-sm"
-                                   title="Delete">
+                                <a href="#" data-toggle="modal"
+                                   th:attr="data-target='#deleteModal' + ${category.categoryId}"
+                                   class="btn btn-danger btn-circle btn-sm" title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
 
@@ -70,7 +71,7 @@
         </div>
 
         <!-- Modal Add Category -->
-        <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -79,7 +80,7 @@
                             th:action="@{/category/add}"
                             method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Create Category</h5>
+                            <h5 class="modal-title" id="createModalLabel">Create Category</h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -100,17 +101,19 @@
             </div>
         </div>
 
-        <!-- Modal Delete Category -->
-        <!--div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+        <!-- Modal Update Category -->
+        <div th:each="category : ${categories}"
+             th:attr="id='updateModal' + ${category.categoryId}"
+             class="modal fade" tabindex="-1" role="dialog"
+             aria-labelledby="createModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <form
                             class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-                            th:action="@{/category/delete/category.getCategoryId()}"
+                            th:action="@{/category/update/{id}(id=${category.categoryId})}"
                             method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Create Category</h5>
+                            <h5 class="modal-title" id="updateModalLabel">Update Category</h5>
                             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -118,18 +121,42 @@
                         <div class="modal-body">
                             <div class="input-group">
                                 <label for="categoryName" class="col-form-label">Category Name: &nbsp;</label>
-                                <input name="categoryName" id="categoryName" type="text" class="form-control bg-light border-0 small" placeholder="Name"
-                                       aria-label="Category Name" aria-describedby="basic-addon2" required>
+                                <input name="categoryName" id="categoryName" type="text" class="form-control bg-light border-0 small"
+                                       aria-label="Category Name" aria-describedby="basic-addon2" required
+                                       th:attr="value=${category.categoryName}">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div-->
+        </div>
+
+        <!-- Modal Delete Category -->
+        <div th:each="category : ${categories}"
+             th:attr="id='deleteModal' + ${category.getCategoryId()}"
+             class="modal fade" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Are you sure you want to delete <b th:text="${category.categoryName}"></b> category?</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger"
+                           th:href="@{/category/delete/{id}(id=${category.getCategoryId()})}">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <!-- /.container-fluid -->

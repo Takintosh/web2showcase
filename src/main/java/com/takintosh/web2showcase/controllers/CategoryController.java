@@ -47,11 +47,25 @@ public class CategoryController {
     @GetMapping("/delete/{id}")
     public String deleteCategory(@PathVariable(value="id") UUID id) {
 
-        Optional<CategoryModel> courseO = categoryRepository.findById(id);
-        if(courseO.isEmpty()) {
+        Optional<CategoryModel> categoryO = categoryRepository.findById(id);
+        if(categoryO.isEmpty()) {
             return "redirect:/category/";
         }
-        categoryRepository.delete(courseO.get());
+        categoryRepository.delete(categoryO.get());
+        return "redirect:/category/";
+    }
+
+    // Update Category
+    @PostMapping("/update/{id}")
+    public String updateCategory(@Valid @ModelAttribute CategoryRecordDto categoryRecordDto, BindingResult result, @PathVariable(value="id") UUID id) {
+
+        Optional<CategoryModel> categoryO = categoryRepository.findById(id);
+        if(categoryO.isEmpty() || result.hasErrors()) {
+            return "redirect:/category/";
+        }
+        CategoryModel categoryModel = categoryO.get();
+        BeanUtils.copyProperties(categoryRecordDto, categoryModel);
+        categoryRepository.save(categoryModel);
         return "redirect:/category/";
     }
 
