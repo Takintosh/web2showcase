@@ -28,7 +28,7 @@ public class CarModel {
     @Column(name = "color", nullable = true, unique = false, columnDefinition = "VARCHAR(50)")
     private String carColor;
 
-    @Column(name = "image", nullable = false, unique = true, columnDefinition = "VARCHAR(50)")
+    @Column(name = "image", nullable = false, unique = false, columnDefinition = "VARCHAR(50)")
     private String carImage;
 
 
