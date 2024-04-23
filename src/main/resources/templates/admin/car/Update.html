@@ -24,7 +24,7 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Update Car</h1>
                         </div>
-                        <form class="user" th:action="@{/car/update/{id}(id=${id})}" method="post">
+                        <form class="user" th:action="@{/car/update/{id}(id=${id})}" method="post" enctype="multipart/form-data">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="text" class="form-control" id="carModel" name="carModel"
@@ -58,7 +58,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="file" class="btn btn-info form-control" id="carImage" name="carImage"
+                                    <input type="file" class="btn btn-info form-control" id="carImage" name="file"
                                            style="min-width: 50%;">
                                 </div>
                             </div>

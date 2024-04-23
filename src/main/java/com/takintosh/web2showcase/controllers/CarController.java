@@ -11,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.swing.text.html.Option;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +25,8 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/car")
 public class CarController {
+
+    private static String filepath = "src/main/resources/static/storage/";
 
     @Autowired
     CarRepository carRepository;
@@ -49,9 +55,11 @@ public class CarController {
 
     // Add Car
     @PostMapping("/add")
-    public String carCreatePost(@Valid @ModelAttribute CarRecordDto carRecordDto, BindingResult result) {
+    public String carCreatePost(@Valid @ModelAttribute CarRecordDto carRecordDto, BindingResult result,
+                                @RequestParam("file") MultipartFile carImage) {
+
         if (result.hasErrors()) {
-            return "admin/car/Create";
+            return "redirect:/car/add";
         }
 
         CarModel carModel = new CarModel();
@@ -60,7 +68,27 @@ public class CarController {
         CategoryModel category = categoryRepository.findById(carRecordDto.categoryId()).get();
         carModel.setCategory(category);
 
+        carModel = carRepository.saveAndFlush(carModel);
+        try {
+            if (!carImage.isEmpty()) {
+
+                String extension = "";
+                Path originalPath = Paths.get(carImage.getOriginalFilename());
+                extension = originalPath.getFileName().toString();
+                extension = extension.substring(extension.lastIndexOf(".") + 1);
+
+                Path path = Paths.get(filepath + String.valueOf(carModel.getCarId()) + "." + extension);
+                Files.write(path, carImage.getBytes());
+
+                carModel.setCarImage(String.valueOf(carModel.getCarId()) + "." + extension);
+            } else {
+                carModel.setCarImage("default.jpg");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         carRepository.save(carModel);
+
         return "redirect:/car/";
     }
 
@@ -83,7 +111,9 @@ public class CarController {
 
     // Update Car
     @PostMapping("/update/{id}")
-    public String carUpdatePost(@PathVariable(value = "id") UUID id, @Valid @ModelAttribute CarRecordDto carRecordDto, BindingResult result) {
+    public String carUpdatePost(@PathVariable(value = "id") UUID id,
+                                @Valid @ModelAttribute CarRecordDto carRecordDto, BindingResult result,
+                                @RequestParam("file") MultipartFile carImage) {
 
         Optional<CarModel> car = carRepository.findById(id);
         if (car.isEmpty()) {
@@ -98,6 +128,22 @@ public class CarController {
 
         CategoryModel category = categoryRepository.findById(carRecordDto.categoryId()).get();
         carModel.setCategory(category);
+
+        try {
+            if (!carImage.isEmpty()) {
+                String extension = "";
+                Path originalPath = Paths.get(carImage.getOriginalFilename());
+                extension = originalPath.getFileName().toString();
+                extension = extension.substring(extension.lastIndexOf(".") + 1);
+
+                Path path = Paths.get(filepath + String.valueOf(carModel.getCarId()) + "." + extension);
+                Files.write(path, carImage.getBytes());
+
+                carModel.setCarImage(String.valueOf(carModel.getCarId()) + "." + extension);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         carRepository.save(carModel);
         return "redirect:/car/";

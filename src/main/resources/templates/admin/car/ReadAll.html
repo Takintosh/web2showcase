@@ -122,11 +122,11 @@
             <div class="row">
 
                 <div class="col-12 text-center">
-                  <img th:src="@{'/images/' + ${car.carImage}}" class="img-fluid" alt="Car Image">
+                  <img th:src="@{/storage/{image}(image=${car.carImage})}" class="img-fluid" alt="Car Image">
                 </div>
 
               <div class="col-12 text-center">
-                <h5><span th:text="${car.carBrand} + ' ' + ${car.carModel}"></span></h5>
+                <h5 class="mt-3"><span th:text="${car.carBrand} + ' ' + ${car.carModel}"></span></h5>
                 <p>
                   Plate: <span th:text="${car.carPlate}"></span></br>
                   Color: <span th:text="${car.carColor}"></span></br>
