@@ -172,5 +172,19 @@ public class CarController {
         return mv;
     }
 
+    // Search Car
+    @PostMapping("/search")
+    public ModelAndView carSearch(@RequestParam("search") String search) {
+        ModelAndView mv = new ModelAndView("admin/car/ReadAll");
+
+        String searchQuery = "%" + search + "%";
+        List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(searchQuery, searchQuery);
+        mv.addObject("cars", cars);
+
+        List<CategoryModel> categories = categoryRepository.findAll();
+        mv.addObject("categories", categories);
+        return mv;
+    }
+
 
 }

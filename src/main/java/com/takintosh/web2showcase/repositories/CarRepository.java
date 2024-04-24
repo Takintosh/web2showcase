@@ -12,5 +12,6 @@ import java.util.UUID;
 public interface CarRepository extends JpaRepository<CarModel, UUID> {
 
     List<CarModel> findAllByCategory(CategoryModel category);
+    List<CarModel> findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(String carModel, String carBrand);
 
 }
