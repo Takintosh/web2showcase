@@ -38,7 +38,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">By Category:</h6>
                 <a class="collapse-item" th:href="@{/car/}">All Cars</a>
-                <a th:each="category : ${categories}" th:text="${category.getCategoryName()}" class="collapse-item" href="#"></a>
+                <a th:each="category : ${categories}" th:text="${category.getCategoryName()}" class="collapse-item" th:href="@{/car/category/{id} (id=${category.categoryId})}"></a>
             </div>
         </div>
     </li>
