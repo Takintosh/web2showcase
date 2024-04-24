@@ -26,7 +26,7 @@ import java.util.UUID;
 @RequestMapping("/car")
 public class CarController {
 
-    private static String filepath = "src/main/resources/static/storage/";
+    private static String filepath = "src/main/resources/static/storage/", extension = "";
 
     @Autowired
     CarRepository carRepository;
@@ -71,8 +71,6 @@ public class CarController {
         carModel = carRepository.saveAndFlush(carModel);
         try {
             if (!carImage.isEmpty()) {
-
-                String extension = "";
                 Path originalPath = Paths.get(carImage.getOriginalFilename());
                 extension = originalPath.getFileName().toString();
                 extension = extension.substring(extension.lastIndexOf(".") + 1);
@@ -131,7 +129,6 @@ public class CarController {
 
         try {
             if (!carImage.isEmpty()) {
-                String extension = "";
                 Path originalPath = Paths.get(carImage.getOriginalFilename());
                 extension = originalPath.getFileName().toString();
                 extension = extension.substring(extension.lastIndexOf(".") + 1);
@@ -160,5 +157,20 @@ public class CarController {
         carRepository.delete(car.get());
         return "redirect:/car/";
     }
+
+    // Get Car by Category
+    @GetMapping("/category/{id}")
+    public ModelAndView carCategory(@PathVariable(value = "id") UUID id) {
+        ModelAndView mv = new ModelAndView("admin/car/ReadAll");
+
+        CategoryModel category = categoryRepository.findById(id).orElse(null);
+        List<CarModel> cars = carRepository.findAllByCategory(category);
+        mv.addObject("cars", cars);
+
+        List<CategoryModel> categories = categoryRepository.findAll();
+        mv.addObject("categories", categories);
+        return mv;
+    }
+
 
 }
