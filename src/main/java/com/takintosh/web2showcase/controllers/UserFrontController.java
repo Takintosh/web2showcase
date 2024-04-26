@@ -36,11 +36,11 @@ public class UserFrontController {
     }
     
     // Get Car by Category
-    @GetMapping("/category/{id}")
-    public ModelAndView carCategory(@PathVariable(value = "id") UUID id) {
+    @GetMapping("/category/{slug}")
+    public ModelAndView carCategory(@PathVariable(value = "slug") String slug) {
         ModelAndView mv = new ModelAndView("user/ReadAll");
 
-        CategoryModel category = categoryRepository.findById(id).orElse(null);
+        CategoryModel category = categoryRepository.findByCategorySlug(slug);
         List<CarModel> cars = carRepository.findAllByCategory(category);
         mv.addObject("cars", cars);
 

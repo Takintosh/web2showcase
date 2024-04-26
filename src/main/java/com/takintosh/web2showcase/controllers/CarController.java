@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/car")
+@RequestMapping("/admin/car")
 public class CarController {
 
     private static String filepath = "src/main/resources/static/storage/", extension = "";
@@ -59,7 +59,7 @@ public class CarController {
                                 @RequestParam("file") MultipartFile carImage) {
 
         if (result.hasErrors()) {
-            return "redirect:/car/add";
+            return "redirect:/admin/car/add";
         }
 
         CarModel carModel = new CarModel();
@@ -87,7 +87,7 @@ public class CarController {
         }
         carRepository.save(carModel);
 
-        return "redirect:/car/";
+        return "redirect:/admin/car/";
     }
 
     // Update Car form
@@ -115,7 +115,7 @@ public class CarController {
 
         Optional<CarModel> car = carRepository.findById(id);
         if (car.isEmpty()) {
-            return "redirect:/car/";
+            return "redirect:/admin/car/";
         }
         if (result.hasErrors()) {
             return "admin/car/Update";
@@ -143,7 +143,7 @@ public class CarController {
         }
 
         carRepository.save(carModel);
-        return "redirect:/car/";
+        return "redirect:/admin/car/";
     }
 
     // Delete Car
@@ -152,10 +152,10 @@ public class CarController {
 
         Optional<CarModel> car = carRepository.findById(id);
         if (car.isEmpty()) {
-            return "redirect:/car/";
+            return "redirect:/admin/car/";
         }
         carRepository.delete(car.get());
-        return "redirect:/car/";
+        return "redirect:/admin/car/";
     }
 
     // Get Car by Category

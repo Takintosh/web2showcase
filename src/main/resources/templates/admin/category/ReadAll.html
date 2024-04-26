@@ -77,7 +77,7 @@
                 <div class="modal-content">
                     <form
                             class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-                            th:action="@{/category/add}"
+                            th:action="@{/admin/category/add}"
                             method="post">
                         <div class="modal-header">
                             <h5 class="modal-title" id="createModalLabel">Create Category</h5>
@@ -110,7 +110,7 @@
                 <div class="modal-content">
                     <form
                             class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-                            th:action="@{/category/update/{id}(id=${category.categoryId})}"
+                            th:action="@{/admin/category/update/{id}(id=${category.categoryId})}"
                             method="post">
                         <div class="modal-header">
                             <h5 class="modal-title" id="updateModalLabel">Update Category</h5>
@@ -152,7 +152,7 @@
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                         <a class="btn btn-danger"
-                           th:href="@{/category/delete/{id}(id=${category.getCategoryId()})}">Delete</a>
+                           th:href="@{/admin/category/delete/{id}(id=${category.getCategoryId()})}">Delete</a>
                     </div>
                 </div>
             </div>

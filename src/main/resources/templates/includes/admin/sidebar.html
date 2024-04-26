@@ -37,15 +37,15 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">By Category:</h6>
-                <a class="collapse-item" th:href="@{/car/}">All Cars</a>
-                <a th:each="category : ${categories}" th:text="${category.getCategoryName()}" class="collapse-item" th:href="@{/car/category/{id} (id=${category.categoryId})}"></a>
+                <a class="collapse-item" th:href="@{/admin/car/}">All Cars</a>
+                <a th:each="category : ${categories}" th:text="${category.getCategoryName()}" class="collapse-item" th:href="@{/admin/car/category/{id} (id=${category.categoryId})}"></a>
             </div>
         </div>
     </li>
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" th:href="@{/category/}">
+        <a class="nav-link" th:href="@{/admin/category/}">
             <i class="fas fa-fw fa-th-list"></i>
             <span>Categories</span></a>
     </li>
