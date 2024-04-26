@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/user}">
+<head>
+  <title>Admin - Cars</title>
+
+</head>
+<body>
+
+	<div class="container"  th:fragment="content">
+	
+		<div class="row">
+			<div class="col col-md-4 col-lg-3 my-4" th:each="car : ${cars}">
+			
+				
+				<div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+				  <img class="card-img-top" th:src="@{/storage/{image}(image=${car.carImage})}" alt="Card image cap"
+				  style="aspect-ratio: 600 / 350; width: 100%; height: auto; object-fit: cover; object-position: center;">
+				  <div class="card-body">
+				    <p class="card-text"th:text="${car.getCarModel()}"></p>
+				  </div>
+				</div>
+			
+			</div>
+		</div>
+	
+	</div>
+	
+</body>
