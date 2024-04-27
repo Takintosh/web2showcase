@@ -28,6 +28,9 @@ public class CarModel {
     @Column(name = "color", nullable = true, unique = false, columnDefinition = "VARCHAR(50)")
     private String carColor;
 
+    @Column(name = "year", nullable = true, unique = false, columnDefinition = "INT(4)")
+    private Integer carYear;
+
     @Column(name = "image", nullable = true, unique = false, columnDefinition = "VARCHAR(50)")
     private String carImage;
 
@@ -73,6 +76,13 @@ public class CarModel {
     }
     public void setCarColor(String carColor) {
         this.carColor = carColor;
+    }
+
+    public Integer getCarYear() {
+        return carYear;
+    }
+    public void setCarYear(Integer carYear) {
+        this.carYear = carYear;
     }
 
     public String getCarImage() {

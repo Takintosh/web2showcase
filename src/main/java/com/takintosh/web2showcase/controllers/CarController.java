@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/car")
+@RequestMapping("/admin/car")
 public class CarController {
 
     private static String filepath = "src/main/resources/static/storage/", extension = "";
@@ -59,7 +59,7 @@ public class CarController {
                                 @RequestParam("file") MultipartFile carImage) {
 
         if (result.hasErrors()) {
-            return "redirect:/car/add";
+            return "redirect:/admin/car/add";
         }
 
         CarModel carModel = new CarModel();
@@ -87,7 +87,7 @@ public class CarController {
         }
         carRepository.save(carModel);
 
-        return "redirect:/car/";
+        return "redirect:/admin/car/";
     }
 
     // Update Car form
@@ -101,6 +101,7 @@ public class CarController {
         mv.addObject("carBrand", car.get().getCarBrand());
         mv.addObject("carColor", car.get().getCarColor());
         mv.addObject("carPlate", car.get().getCarPlate());
+        mv.addObject("carYear", car.get().getCarYear());
         mv.addObject("carImage", car.get().getCarImage());
         mv.addObject("carCategory", car.get().getCategory());
         mv.addObject("categories", categories);
@@ -115,12 +116,13 @@ public class CarController {
 
         Optional<CarModel> car = carRepository.findById(id);
         if (car.isEmpty()) {
-            return "redirect:/car/";
+            return "redirect:/admin/car/";
         }
         if (result.hasErrors()) {
             return "admin/car/Update";
         }
 
+        String oldImage = car.get().getCarImage();
         CarModel carModel = car.get();
         BeanUtils.copyProperties(carRecordDto, carModel);
 
@@ -137,13 +139,15 @@ public class CarController {
                 Files.write(path, carImage.getBytes());
 
                 carModel.setCarImage(String.valueOf(carModel.getCarId()) + "." + extension);
+            } else {
+                carModel.setCarImage(oldImage);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         carRepository.save(carModel);
-        return "redirect:/car/";
+        return "redirect:/admin/car/";
     }
 
     // Delete Car
@@ -152,10 +156,10 @@ public class CarController {
 
         Optional<CarModel> car = carRepository.findById(id);
         if (car.isEmpty()) {
-            return "redirect:/car/";
+            return "redirect:/admin/car/";
         }
         carRepository.delete(car.get());
-        return "redirect:/car/";
+        return "redirect:/admin/car/";
     }
 
     // Get Car by Category
@@ -178,7 +182,8 @@ public class CarController {
         ModelAndView mv = new ModelAndView("admin/car/ReadAll");
 
         String searchQuery = "%" + search + "%";
-        List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(searchQuery, searchQuery);
+        //List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(searchQuery, searchQuery);
+        List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCaseOrCarYearEquals(searchQuery, searchQuery, Integer.parseInt(search));
         mv.addObject("cars", cars);
 
         List<CategoryModel> categories = categoryRepository.findAll();
@@ -186,5 +191,12 @@ public class CarController {
         return mv;
     }
 
+}
 
+@Controller
+class auxRedirect {
+    @GetMapping("/admin")
+    public String admin() {
+        return "redirect:/admin/car/";
+    }
 }

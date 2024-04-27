@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface CategoryRepository extends JpaRepository<CategoryModel, UUID> {
 
+    CategoryModel findByCategorySlug(String categorySlug);
+
 }

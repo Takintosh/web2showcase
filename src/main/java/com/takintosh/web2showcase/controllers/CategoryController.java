@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/category")
+@RequestMapping("/admin/category")
 public class CategoryController {
 
     @Autowired
@@ -35,12 +35,14 @@ public class CategoryController {
     @PostMapping("/add")
     public String categoryCreate(@Valid @ModelAttribute CategoryRecordDto categoryRecordDto, BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/category/";
+            return "redirect:/admin/category/";
         }
         CategoryModel categoryModel = new CategoryModel();
         BeanUtils.copyProperties(categoryRecordDto, categoryModel);
+        categoryModel.setCategorySlug(generateSlugFromName(categoryModel.getCategoryName()));
+
         categoryRepository.save(categoryModel);
-        return "redirect:/category/";
+        return "redirect:/admin/category/";
     }
 
     // Delete Category
@@ -49,10 +51,10 @@ public class CategoryController {
 
         Optional<CategoryModel> category = categoryRepository.findById(id);
         if(category.isEmpty()) {
-            return "redirect:/category/";
+            return "redirect:/admin/category/";
         }
         categoryRepository.delete(category.get());
-        return "redirect:/category/";
+        return "redirect:/admin/category/";
     }
 
     // Update Category
@@ -61,12 +63,20 @@ public class CategoryController {
 
         Optional<CategoryModel> categoryO = categoryRepository.findById(id);
         if(categoryO.isEmpty() || result.hasErrors()) {
-            return "redirect:/category/";
+            return "redirect:/admin/category/";
         }
         CategoryModel categoryModel = categoryO.get();
         BeanUtils.copyProperties(categoryRecordDto, categoryModel);
+        categoryModel.setCategorySlug(generateSlugFromName(categoryModel.getCategoryName()));
+
         categoryRepository.save(categoryModel);
-        return "redirect:/category/";
+        return "redirect:/admin/category/";
+    }
+
+    public String generateSlugFromName(String name) {
+        String slug = name.replaceAll("\\s+", "-");
+        slug = slug.toLowerCase();
+        return slug;
     }
 
 

@@ -13,7 +13,7 @@
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Cars</h1>
 
-    <a th:href="@{/car/add}"
+    <a th:href="@{/admin/car/add}"
        class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
       <i class="fas fa-plus-circle fa-sm text-white-50"></i> Add Car</a>
   </div>
@@ -58,7 +58,7 @@
                 <i class="fas fa-eye"></i>
               </a>
 
-              <a th:href="@{/car/update/{id}(id=${car.carId})}"
+              <a th:href="@{/admin/car/update/{id}(id=${car.carId})}"
                  class="btn btn-primary btn-circle btn-sm" title="Update">
                 <i class="fas fa-edit"></i>
               </a>
@@ -96,7 +96,7 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-danger"
-             th:href="@{/car/delete/{id}(id=${car.carId})}">Delete</a>
+             th:href="@{/admin/car/delete/{id}(id=${car.carId})}">Delete</a>
         </div>
       </div>
     </div>
@@ -128,6 +128,7 @@
               <div class="col-12 text-center">
                 <h5 class="mt-3"><span th:text="${car.carBrand} + ' ' + ${car.carModel}"></span></h5>
                 <p>
+                  Year: <span th:text="${car.carYear}"></span></br>
                   Plate: <span th:text="${car.carPlate}"></span></br>
                   Color: <span th:text="${car.carColor}"></span></br>
                   Category: <span th:text="${car.category.categoryName}"></span>
