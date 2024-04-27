@@ -64,4 +64,17 @@ public class UserFrontController {
         return mv;
     }
 
+    // Get Car by ID
+    @GetMapping("/car/{id}")
+    public ModelAndView carDetail(@PathVariable(value = "id") UUID id) {
+        ModelAndView mv = new ModelAndView("user/ReadOne");
+
+        CarModel car = carRepository.findById(id).orElse(null);
+        mv.addObject("car", car);
+
+        List<CategoryModel> categories = categoryRepository.findAll();
+        mv.addObject("categories", categories);
+        return mv;
+    }
+
 }
