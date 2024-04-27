@@ -101,6 +101,7 @@ public class CarController {
         mv.addObject("carBrand", car.get().getCarBrand());
         mv.addObject("carColor", car.get().getCarColor());
         mv.addObject("carPlate", car.get().getCarPlate());
+        mv.addObject("carYear", car.get().getCarYear());
         mv.addObject("carImage", car.get().getCarImage());
         mv.addObject("carCategory", car.get().getCategory());
         mv.addObject("categories", categories);
@@ -121,6 +122,7 @@ public class CarController {
             return "admin/car/Update";
         }
 
+        String oldImage = car.get().getCarImage();
         CarModel carModel = car.get();
         BeanUtils.copyProperties(carRecordDto, carModel);
 
@@ -137,6 +139,8 @@ public class CarController {
                 Files.write(path, carImage.getBytes());
 
                 carModel.setCarImage(String.valueOf(carModel.getCarId()) + "." + extension);
+            } else {
+                carModel.setCarImage(oldImage);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,7 +182,8 @@ public class CarController {
         ModelAndView mv = new ModelAndView("admin/car/ReadAll");
 
         String searchQuery = "%" + search + "%";
-        List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(searchQuery, searchQuery);
+        //List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(searchQuery, searchQuery);
+        List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCaseOrCarYearEquals(searchQuery, searchQuery, Integer.parseInt(search));
         mv.addObject("cars", cars);
 
         List<CategoryModel> categories = categoryRepository.findAll();
@@ -186,5 +191,12 @@ public class CarController {
         return mv;
     }
 
+}
 
+@Controller
+class auxRedirect {
+    @GetMapping("/admin")
+    public String admin() {
+        return "redirect:/admin/car/";
+    }
 }

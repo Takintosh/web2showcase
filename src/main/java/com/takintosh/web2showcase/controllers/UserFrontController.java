@@ -55,7 +55,8 @@ public class UserFrontController {
         ModelAndView mv = new ModelAndView("user/ReadAll");
 
         String searchQuery = "%" + search + "%";
-        List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(searchQuery, searchQuery);
+        //List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCase(searchQuery, searchQuery);
+        List<CarModel> cars = carRepository.findAllByCarModelLikeIgnoreCaseOrCarBrandLikeIgnoreCaseOrCarYearEquals(searchQuery, searchQuery, Integer.parseInt(search));
         mv.addObject("cars", cars);
 
         List<CategoryModel> categories = categoryRepository.findAll();

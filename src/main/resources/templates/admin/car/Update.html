@@ -43,23 +43,30 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" id="carColor" name="carColor"
-                                           th:value="${carColor}"placeholder="Color">
+                                           th:value="${carColor}" placeholder="Color">
                                 </div>
                             </div>
 
-
                             <div class="form-group row">
                                 <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="carYear" name="carYear"
+                                           th:value="${carYear}" placeholder="Year">
+                                </div>
+                                <div class="col-sm-6">
                                     <select class="form-control" id="categorySelect" name="categoryId">
+                                        <option value="">Select Category</option>
                                         <option th:each="category : ${categories}"
                                                 th:text="${category.categoryName}"
                                                 th:value="${category.categoryId}"
-                                                th:selected="${category.categoryId == carCategory.categoryId }"></option>
+                                                th:selected="${category.categoryId == carCategory.categoryId}">
+                                        </option>
                                     </select>
                                 </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="file" class="btn btn-info form-control" id="carImage" name="file"
-                                           style="min-width: 50%;">
+                                    <input type="file" class="btn btn-info form-control" id="carImage" name="file">
                                 </div>
                             </div>
 

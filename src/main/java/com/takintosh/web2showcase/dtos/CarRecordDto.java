@@ -10,6 +10,7 @@ public record CarRecordDto(
         @NotBlank String carBrand,
         String carColor,
         @NotBlank String carPlate,
+        Integer carYear,
         String carImage,
         @NotNull UUID categoryId
 ) {

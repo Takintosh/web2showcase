@@ -8,7 +8,7 @@
     <link th:href="@{/vendor/Lux/bootstrap.min.css}" rel="stylesheet" type="text/css">
     
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100">
   
 		 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
 		  <div class="container">
@@ -31,9 +31,12 @@
 		        </li>
 		      </ul>
 		      <form class="d-flex" th:action="@{/search}" method="post">
-		        <input class="form-control me-sm-2" type="search" placeholder="Search model or brand" id="search" name="search">
+		        <input class="form-control me-sm-2" type="search" placeholder="Search..." id="search" name="search">
 		        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 		      </form>
+				<a class="btn btn-secondary my-2 my-sm-0 ms-2" th:href="@{/admin}">
+					Admin
+				</a>
 		    </div>
 		  </div>
 		</nav>
@@ -41,6 +44,17 @@
 		
 		<!-- Content -->
 		<div class="container" th:replace="~{::content}"> </div>
+
+
+		 <footer class="bg-primary pt-4 pb-2 mt-auto">
+			 <div class="container">
+				 <div class="row">
+					 <div class="col-lg-12 text-center text-muted">
+						 <p>&copy; 2024 - Car Showcase</p>
+					 </div>
+				 </div>
+			 </div>
+		 </footer>
   
   
     
